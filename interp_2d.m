@@ -47,7 +47,7 @@ end
 sz = size(x);
 [x_resh, n_slcs] = resh(x, 3);
 sz_interp = sz(1:2)*factor - (factor-1);
-x_interp = zeros(sz_interp(1), sz_interp(2), n_slcs);
+x_interp = zeros(sz_interp(1), sz_interp(2), n_vols);
 
 for n = 1:n_slcs
 	x_resh(:,:,n) = interp_slc(x_resh(:,:,n), factor, method, polar, niter);
