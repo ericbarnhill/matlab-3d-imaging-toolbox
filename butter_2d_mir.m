@@ -1,4 +1,4 @@
-function [y, filt] = butter_2d(ord, cut, x, hi)
+function [y, filt] = butter_2d_mir(ord, cut, x, hi)
 % y = butter_2d(ord, cut, x)
 % Part of the MCNIT: M-code Complex and Nd Imaging Toolbox
 % (c) Eric Barnhill 2016 All Rights Reserved.
@@ -41,8 +41,9 @@ y = reshape(x_resh, sz);
 end
 
 function [y_slc, filt] = filt_slc(ord, cut, x_slc, hi)
+    x_slc = [x_slc fliplr(x_slc); flipud(x_slc) flipud(fliplr(x_slc))];
 	sz = size(x_slc);
-	mids = floor(sz/2)+1;
+	mids = floor(sz/2);
 	[x, y] = meshgrid( (1:sz(2)) - mids(2), (1:sz(1)) - mids(1) );
 	w = sqrt(x.^2 + y.^2);
 	w = w ./ max(w(:));
@@ -54,6 +55,7 @@ function [y_slc, filt] = filt_slc(ord, cut, x_slc, hi)
 	x_ft = fftshift(fft2(x_slc));
 	x_filt = x_ft .* filt;
 	y_slc = ifft2(ifftshift(x_filt));
+    y_slc = x_slc(1:mids(1), 1:mids(2));
 end	
 	
 	
