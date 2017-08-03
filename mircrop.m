@@ -1,7 +1,11 @@
-function x_mir = mir(x)
+function x_crop = mircrop(x, n_slcs)
 
-nd = ndims(x);
-x_mir = shiftdim(x, 2);
-orig_dim = (size(x_mir, 1) + 2 ) / 3;
-x_mir =  x_mir(orig_dim:orig_dim*2-1,:,:,:,:,:,:,:,:,:,:); % kludge for nd, obviously
-x_mir = shiftdim(x_mir, nd-2);
+szx = size(x);
+x_resh = resh(x, 4);
+z_indices = n_slcs+1:(szx(3)-n_slcs);
+x_crop = x_resh(:,:,z_indices,:);
+if size(x_resh, 4) > 1
+    x_crop = reshape(x_crop, [szx(1) szx(2) numel(z_indices) szx(4:end)]);
+else
+    x_crop = reshape(x_crop, [szx(1) szx(2) numel(z_indices)]);
+end   
